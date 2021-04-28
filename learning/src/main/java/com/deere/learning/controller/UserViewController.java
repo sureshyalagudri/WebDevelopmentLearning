@@ -12,6 +12,12 @@ public class UserViewController {
 		return "user";
 	}
 	
+	@GetMapping("/error")
+	public String error(){
+		System.out.println("Called: " + new Object(){}.getClass().getEnclosingMethod().getName());
+		return "error";
+	}
+	
 	@GetMapping("/Register")
 	public String getRegister() {
 		System.out.println("Called: " + new Object(){}.getClass().getEnclosingMethod().getName());

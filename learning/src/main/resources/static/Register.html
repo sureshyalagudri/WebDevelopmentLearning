@@ -68,31 +68,85 @@ a {
 </style>
 </head>
 <body>
+<script>
+var addUser = function (){
+    const url = "http://localhost:8080/adduser";
+    	
+    fetch(url, {
+    		method : "POST", 
+    		body: JSON.stringify({
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value
+    		}),
+    	 	headers: {
+    	        "Content-type": "application/json; charset=UTF-8"
+    	    }
+    })
+    .then(response => {
+    	 if (response.ok) {
+             //return response.json();
+         } else {
+            // throw new Error("Could not reach the API: " + response.statusText);
+         }
+	})
+	.catch(err => {
+		alert(err.message);
+	})
+}
 
-<form action="/action_page.php">
+var addUserWithForm = function (){
+    const url = "http://localhost:8080/adduser";
+    
+    // Creating dynamic form and submitting the data.
+    var form = document.createElement("form");
+    var element1 = document.createElement("input"); 
+    var element2 = document.createElement("input");  
+    form.method = "POST";
+    form.action = "addnewuser";   
+    element1.value="Suresh";
+    element1.name="email";
+    form.appendChild(element1);  
+    element2.value="asdasd";
+    element2.name="password";
+    form.appendChild(element2);
+    document.body.appendChild(form);
+    form.submit();
+    
+}
+
+// 1. Get list of users.
+// 2. File upload.
+// 3. Devide the UI into different segment. header footer and body.
+// 4. Move js and css to saperate folder.
+
+// Spring APO.
+// exception handling in spring MVC.
+// Spring security.
+
+</script>
+
   <div class="container">
     <h1>Register</h1>
     <p>Please fill in this form to create an account.</p>
     <hr>
 
     <label for="email"><b>Email</b></label>
-    <input type="text" placeholder="Enter Email" name="email" id="email" required>
+    <input type="text" placeholder="email" name="email" id="email" required>
 
     <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
+    <input type="password" placeholder="password" name="password" id="password" required>
 
     <label for="psw-repeat"><b>Repeat Password</b></label>
-    <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
+    <input type="password" name="psw-repeat" id="psw-repeat">
     <hr>
     <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
 
-    <button type="submit" class="registerbtn">Register</button>
+    <button type="submit" class="registerbtn" onclick="addUserWithForm()">Register</button>
   </div>
   
   <div class="container signin">
     <p>Already have an account? <a href="#">Sign in</a>.</p>
   </div>
-</form>
 
 </body>
 </html>

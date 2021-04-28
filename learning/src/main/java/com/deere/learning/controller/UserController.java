@@ -44,26 +44,32 @@ public class UserController {
 	}
 
 	@PostMapping("/adduser")
-	public String newUser(@RequestBody UserMapping newUser) {
-		userService.save(newUser);
-
+	public String newUser(@RequestBody UserMapping newUser) throws Exception {
+		userService.Register(newUser);
 		return "User Added";
 	}
 
-	@PostMapping("/addnewuser")
+	@PostMapping(value = "/addnewuser", produces = "application/json")
 	public String addNewUser(
 			// @NotNull
 			// @Validated
 			@RequestParam(value = "email", required = true) String email,
-			@RequestParam(value = "password", required = true) String password) {
+			@RequestParam(value = "password", required = true) String password) throws Exception {
 
+		
+		System.out.println("Called: " + new Object(){}.getClass().getEnclosingMethod().getName());
+		
 		if (email == null || email.equals("")) {
 			return "Email is not valid";
 		}
 
 		if (password == null || password.equals("")) {
-			return "Password sis not valid";
+			return "Password is not valid";
 		}
+		
+		// How to throw user add issue ?
+		UserMapping newUser = new UserMapping();
+		userService.Register(newUser);
 
 		return "User added";
 	}

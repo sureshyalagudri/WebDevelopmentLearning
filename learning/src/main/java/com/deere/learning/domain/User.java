@@ -1,6 +1,7 @@
 package com.deere.learning.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -9,6 +10,7 @@ import javax.persistence.Table;
 public class User {
 
 	@Id
+	@GeneratedValue
 	private int ID;
 	private String role;
 	private String firstName;
