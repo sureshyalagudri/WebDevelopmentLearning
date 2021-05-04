@@ -24,4 +24,9 @@ public class UserViewController {
 		return "Register";
 	}
 
+	@GetMapping("/upload")
+	public String getUpload() {
+		System.out.println("Called: " + new Object(){}.getClass().getEnclosingMethod().getName());
+		return "FileUpload";
+	}
 }

@@ -31,12 +31,18 @@ public class UserService {
 
 	public void Register(UserMapping userMapping) throws Exception {
 		System.out.println("Inside Register service");
+
+		// Check if user found already.
+		if (userRepo.findByemail(userMapping.getEmail()) != null) {
+			throw new Exception("User already present!");
+		}
+
 		User user = new User();
 		user.setEmail(userMapping.getEmail());
 		user.setPassword(userMapping.getPassword());
 
 		Date date = new Date(System.currentTimeMillis());
-		
+
 		// Set dummy value for other required data.
 		user.setFirstName("");
 		user.setMiddleName("");
@@ -47,12 +53,7 @@ public class UserService {
 		user.setPhone(0000000000);
 		user.setAddress("");
 		user.setGender("");
-		
-		// Check if user found already.
-		throw new Exception("User already present");
-		
-		//userRepo.save(user);
-		
-		
+
+		userRepo.save(user);
 	}
 }

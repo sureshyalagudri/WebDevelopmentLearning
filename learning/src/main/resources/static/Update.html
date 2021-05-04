@@ -52,19 +52,6 @@ var addUser = function (){
   //document.getElementById("myForm").submit();
    document.getElementById('message').innerHTML = "Adding..";
     const url = "http://localhost:8080/adduser";
-    const data = {
-            firstName: document.getElementById('firstname').value,
-            middleName: document.getElementById('middlename').value,
-            lastName: document.getElementById('middlename').value,
-            gender: document.getElementById('middlename').value,
-            birthDate: document.getElementById('middlename').value,
-            country: document.getElementById('middlename').value,
-            address: document.getElementById('middlename').value,
-            phone: document.getElementById('middlename').value,
-            email: document.getElementById('middlename').value,
-            role: document.getElementById('middlename').value,
-            password: document.getElementById('middlename').value
-        };
     
     var gender = "male";
   	if(document.getElementById('female').checked){

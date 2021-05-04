@@ -4,27 +4,27 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.deere.learning.domain.User;
+import com.deere.learning.service.FileUploadService;
 import com.deere.learning.service.UserService;
+import com.deere.learning.utils.UploadFileResponse;
 import com.deere.learning.view.UserMapping;
-import com.sun.istack.NotNull;
 
 @RestController
 public class UserController {
 
 	@Autowired
 	UserService userService;
+	@Autowired
+	FileUploadService fileUploadService;
 
 	// @RequestMapping(value = "/users", method={RequestMethod.GET})
 	@GetMapping("/users")
@@ -38,9 +38,8 @@ public class UserController {
 	}
 
 	@GetMapping("/allusers")
-	public List<String> getAllUsres() {
-		userService.getAllUsers();
-		return null;
+	public List<User> getAllUsres() {
+		return userService.getAllUsers();
 	}
 
 	@PostMapping("/adduser")
@@ -56,9 +55,9 @@ public class UserController {
 			@RequestParam(value = "email", required = true) String email,
 			@RequestParam(value = "password", required = true) String password) throws Exception {
 
-		
-		System.out.println("Called: " + new Object(){}.getClass().getEnclosingMethod().getName());
-		
+		System.out.println("Called: " + new Object() {
+		}.getClass().getEnclosingMethod().getName());
+
 		if (email == null || email.equals("")) {
 			return "Email is not valid";
 		}
@@ -66,7 +65,7 @@ public class UserController {
 		if (password == null || password.equals("")) {
 			return "Password is not valid";
 		}
-		
+
 		// How to throw user add issue ?
 		UserMapping newUser = new UserMapping();
 		userService.Register(newUser);
@@ -78,4 +77,17 @@ public class UserController {
 	// public void newUser(@ModelAttribute User newUser) {
 	// userService.save(newUser);
 	// }
+
+	@PostMapping("/upload")
+	public UploadFileResponse fileUpload(@RequestParam("file") MultipartFile file) throws Exception {
+
+		System.out.println(file.getName());
+
+		String fileName = fileUploadService.storeFile(file);
+
+		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/downloadFile/")
+				.path(fileName).toUriString();
+
+		return new UploadFileResponse(fileName, fileDownloadUri, file.getContentType(), file.getSize());
+	}
 }
